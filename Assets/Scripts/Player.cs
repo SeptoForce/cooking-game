@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
@@ -9,17 +8,46 @@ public class Player : MonoBehaviour
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask counterLayerMask;
     
+    public static Player Instance { get; private set; }
+
     private bool _isWalking = false;
     public bool IsWalking() => _isWalking;
-    private Vector3 _lastInteractDirection = Vector3.zero;
+    private Vector3 _lastInteractDirection;
     
+    private ClearCounter _selectedCounter;
+    
+    public EventHandler<SelectedCounterChangedEventArgs> onSelectedCounterChanged;
+
+    public class SelectedCounterChangedEventArgs : EventArgs
+    {
+        public ClearCounter SelectedCounter;
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
+    private void Start()
+    {
+        gameInput.onInteract += InteractAction;
+    }
+
     private void Update()
     {
         HandleMovement();
-        HandleInteractions();
+        HandleSelection();
     }
 
-    private void HandleInteractions()
+    private void InteractAction()
+    {
+        _selectedCounter?.Interact();
+    }
+
+    private void HandleSelection()
     {
         Vector2 inputVector = gameInput.GetMovementVector();
         Vector3 movementDirection = new Vector3(inputVector.x, 0, inputVector.y);
@@ -37,13 +65,29 @@ public class Player : MonoBehaviour
         {
             if (hit.collider.TryGetComponent(out ClearCounter clearCounter))
             {
-                clearCounter.Interact();
+                SetSelectedCounter(clearCounter);
+            }
+            else
+            {
+                SetSelectedCounter(null);
             }
         }
-        
+        else
+        {
+            SetSelectedCounter(null);
+        }
     }
 
-    
+    private void SetSelectedCounter(ClearCounter clearCounter)
+    {
+        _selectedCounter = clearCounter;
+        onSelectedCounterChanged?.Invoke(this, new SelectedCounterChangedEventArgs
+        {
+            SelectedCounter = _selectedCounter
+        });
+    }
+
+
     private void HandleMovement()
     {
         Vector2 inputVector = gameInput.GetMovementVector();
