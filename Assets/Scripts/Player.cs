@@ -2,25 +2,29 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IKitchenObjectParent
 {
     [SerializeField] private float movementSpeed = 7f;
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask counterLayerMask;
     
     public static Player Instance { get; private set; }
+    
+    //For the interface IKitchenObjectParent
+    private KitchenObject _kitchenObject;
+    [SerializeField] private GameObject kitchenObjectHoldPoint;
 
     private bool _isWalking = false;
     public bool IsWalking() => _isWalking;
     private Vector3 _lastInteractDirection;
     
-    private ClearCounter _selectedCounter;
+    private BaseCounter _selectedCounter;
     
     public EventHandler<SelectedCounterChangedEventArgs> onSelectedCounterChanged;
 
     public class SelectedCounterChangedEventArgs : EventArgs
     {
-        public ClearCounter SelectedCounter;
+        public BaseCounter SelectedCounter;
     }
 
     private void Awake()
@@ -44,7 +48,7 @@ public class Player : MonoBehaviour
 
     private void InteractAction()
     {
-        _selectedCounter?.Interact();
+        _selectedCounter?.Interact(this);
     }
 
     private void HandleSelection()
@@ -63,9 +67,9 @@ public class Player : MonoBehaviour
         
         if (hit.collider != null)
         {
-            if (hit.collider.TryGetComponent(out ClearCounter clearCounter))
+            if (hit.collider.TryGetComponent(out BaseCounter baseCounter))
             {
-                SetSelectedCounter(clearCounter);
+                SetSelectedCounter(baseCounter);
             }
             else
             {
@@ -78,9 +82,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void SetSelectedCounter(ClearCounter clearCounter)
+    private void SetSelectedCounter(BaseCounter baseCounter)
     {
-        _selectedCounter = clearCounter;
+        _selectedCounter = baseCounter;
         onSelectedCounterChanged?.Invoke(this, new SelectedCounterChangedEventArgs
         {
             SelectedCounter = _selectedCounter
@@ -127,5 +131,30 @@ public class Player : MonoBehaviour
         }
         
         transform.forward = Vector3.Slerp(transform.forward, movementDirection, Time.deltaTime * 10f);
+    }
+
+    public Transform GetKitchenObjectFollowTransform()
+    {
+        return kitchenObjectHoldPoint.transform;
+    }
+    
+    public KitchenObject GetKitchenObject()
+    {
+        return _kitchenObject;
+    }
+    
+    public void SetKitchenObject(KitchenObject kitchenObject)
+    {
+        _kitchenObject = kitchenObject;
+    }
+    
+    public void ClearKitchenObject()
+    {
+        _kitchenObject = null;
+    }
+    
+    public bool HasKitchenObject()
+    {
+        return _kitchenObject != null;
     }
 }
