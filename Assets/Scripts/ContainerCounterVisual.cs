@@ -1,9 +1,8 @@
 using System;
 using UnityEngine;
 
-public class ContainerCounterVisual : MonoBehaviour
+public class CuttingCounterVisual : MonoBehaviour
 {
-    
     [SerializeField] private ContainerCounter containerCounter;
     private Animator _animator;
     private static readonly int OpenClose = Animator.StringToHash("OpenClose");

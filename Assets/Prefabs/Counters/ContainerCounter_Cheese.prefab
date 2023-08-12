@@ -8,10 +8,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 472760673180671215, guid: 2119baa2e09924f958eb0a05e08795af,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.41
+      objectReference: {fileID: 0}
     - target: {fileID: 605808208098921616, guid: 2119baa2e09924f958eb0a05e08795af,
         type: 3}
       propertyPath: m_Name
-      value: ContainerCounter Variant
+      value: ContainerCounter_Cheese
       objectReference: {fileID: 0}
     - target: {fileID: 2480001769650281959, guid: 2119baa2e09924f958eb0a05e08795af,
         type: 3}
