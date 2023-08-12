@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Kitchen Object", menuName = "Kitchen Object")]
+[CreateAssetMenu(fileName = "KitchenObject", menuName = "ScriptableObjects/KitchenObject", order = 1)]
 public class KitchenObjectSO : ScriptableObject
 {
     public GameObject prefab;

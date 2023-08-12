@@ -21,7 +21,7 @@ public class ClearCounter : BaseCounter
         {
             GetKitchenObject().SetKitchenObjectParent(player);
         }
-        // counter && player <- 
+        // counter && player <- do nothing
         else if (HasKitchenObject() && player.HasKitchenObject())
         {
             

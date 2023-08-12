@@ -20,16 +20,16 @@ public class ContainerCounter : BaseCounter
         // !counter && !player <- create object on counter
         else if (!HasKitchenObject() && !player.HasKitchenObject())
         {
-            GameObject kitchenObjectTransform = Instantiate(kitchenObject.prefab);
-            kitchenObjectTransform.GetComponent<KitchenObject>().SetKitchenObjectParent(player);
-            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
+            KitchenObject.SpawnKitchenObject(kitchenObject, player);
+            
+            OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty); // for animation
         }
         // counter && !player <- take object from counter
         else if (HasKitchenObject() && !player.HasKitchenObject())
         {
             GetKitchenObject().SetKitchenObjectParent(player);
         }
-        // counter && player <- 
+        // counter && player <- do nothing
         else if (HasKitchenObject() && player.HasKitchenObject())
         {
         }
