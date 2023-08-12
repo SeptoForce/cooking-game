@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CuttingCounter : BaseCounter
+public class CuttingCounter : BaseCounter, IHasProgress
 {
     [SerializeField] private List<CuttingRecipeSO> cuttingRecipes;
     
-    public Action<float> onCuttingProgressChanged;
+    public event Action<float> OnProgressChanged;
     
-    public Action onPlayerCutObject;
+    public event Action OnPlayerCutObject;
 
     private int _cuttingProgress;
     
@@ -27,7 +27,7 @@ public class CuttingCounter : BaseCounter
             
             _cuttingProgress = 0;
             CuttingRecipeSO cuttingRecipeSoWithInput = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
-            onCuttingProgressChanged?.Invoke(_cuttingProgress/(float)cuttingRecipeSoWithInput.cuttingProgressMax);
+            OnProgressChanged?.Invoke(_cuttingProgress/(float)cuttingRecipeSoWithInput.cuttingProgressMax);
         }
         // !counter && !player <- do nothing
         else if (!HasKitchenObject() && !player.HasKitchenObject())
@@ -52,9 +52,9 @@ public class CuttingCounter : BaseCounter
         {
             _cuttingProgress++;
             CuttingRecipeSO cuttingRecipeSoWithInput = GetCuttingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
-            onCuttingProgressChanged?.Invoke(_cuttingProgress/(float)cuttingRecipeSoWithInput.cuttingProgressMax);
+            OnProgressChanged?.Invoke(_cuttingProgress/(float)cuttingRecipeSoWithInput.cuttingProgressMax);
             
-            onPlayerCutObject?.Invoke(); // for animation
+            OnPlayerCutObject?.Invoke(); // for animation
             
             if (_cuttingProgress < cuttingRecipeSoWithInput.cuttingProgressMax)
             {
@@ -81,4 +81,6 @@ public class CuttingCounter : BaseCounter
     {
         return cuttingRecipes.Find(x => x.input == input);
     }
+
+    
 }

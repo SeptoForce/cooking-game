@@ -13,7 +13,7 @@ public class ContainerCounterVisual : MonoBehaviour
 
     private void Start()
     {
-        cuttingCounter.onPlayerCutObject += OnPlayerCutObject;
+        cuttingCounter.OnPlayerCutObject += OnPlayerCutObject;
     }
     
     private void OnPlayerCutObject()
