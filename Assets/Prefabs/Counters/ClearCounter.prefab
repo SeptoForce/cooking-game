@@ -247,6 +247,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClearCounter
       objectReference: {fileID: 0}
+    - target: {fileID: 1982477658481925857, guid: 2d14739888d0442c394942cdc0996ede,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982477658481925857, guid: 2d14739888d0442c394942cdc0996ede,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.168
+      objectReference: {fileID: 0}
     - target: {fileID: 4568345223701962729, guid: 2d14739888d0442c394942cdc0996ede,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -344,5 +354,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dfb49a10c34a4a189a8bbbf339c868d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kitchenObject: {fileID: 0}
   counterTopPoint: {fileID: 4658366377190873878}
