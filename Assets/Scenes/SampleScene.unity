@@ -1333,6 +1333,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3634656756903773264, guid: 97dc8d150233443948522e4296b235b5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6875695498464584987, guid: 97dc8d150233443948522e4296b235b5,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1387,6 +1392,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: StoveCounter (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808918499679523801, guid: 97dc8d150233443948522e4296b235b5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
