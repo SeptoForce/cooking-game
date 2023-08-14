@@ -29,9 +29,16 @@ public class ContainerCounter : BaseCounter
         {
             GetKitchenObject().SetKitchenObjectParent(player);
         }
-        // counter && player <- do nothing
+        // counter && player <- if player has plate, add object from counter to player's plate
         else if (HasKitchenObject() && player.HasKitchenObject())
         {
+            if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+            {
+                if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                {
+                    GetKitchenObject().DestroySelf();
+                }
+            }
         }
     }
 }

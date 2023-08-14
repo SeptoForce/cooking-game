@@ -101,10 +101,22 @@ public class StoveCounter : BaseCounter,IHasProgress
             OnStateChanged?.Invoke(_state);
             GetKitchenObject().SetKitchenObjectParent(player);
         }
-        // counter && player <- do nothing
+        // counter && player <- if player has plate, add object from counter to player's plate
         else if (HasKitchenObject() && player.HasKitchenObject())
         {
-
+            if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
+            {
+                if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
+                {
+                    GetKitchenObject().DestroySelf();
+                    
+                    _state = State.Idle;
+                    _fryingTimer = 0;
+                    _burningTimer = 0;
+                    OnProgressChanged?.Invoke(0);
+                    OnStateChanged?.Invoke(_state);
+                }
+            }
         }
     }
 
