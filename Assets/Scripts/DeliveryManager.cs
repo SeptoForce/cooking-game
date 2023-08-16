@@ -40,26 +40,37 @@ public class DeliveryManager : MonoBehaviour
 
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
     {
-       List<KitchenObjectSO> kitchenObjectsOnPlate = plateKitchenObject.GetKitchenObjectSoList();
-
-       foreach (RecipeSO recipeSo in waitingRecipeSoList)
-       {
-           for(int i = recipeSo.kitchenObjectSOList.Count-1; i >= 0; i--)
-           {
-               if(kitchenObjectsOnPlate.Contains(recipeSo.kitchenObjectSOList[i]))
-                   kitchenObjectsOnPlate.Remove(recipeSo.kitchenObjectSOList[i]);
-           }
-
-           if (kitchenObjectsOnPlate.Count == 0)
-           {
-               waitingRecipeSoList.Remove(recipeSo);
-               OnRecipeDelivered?.Invoke();
-               OnRecipeSuccess?.Invoke();
-               return;
-           }
-       }
-       Debug.Log("Recipe not found");
-       OnRecipeFailed?.Invoke();
+        foreach (RecipeSO waitingRecipeSO in waitingRecipeSoList)
+        {
+            if(plateKitchenObject.GetKitchenObjectSoList().Count == waitingRecipeSO.kitchenObjectSOList.Count)
+            {
+                bool plateContentsMatchRecipe = true;
+                foreach (KitchenObjectSO recipeKitchenObjectSo in waitingRecipeSO.kitchenObjectSOList)
+                {
+                    bool ingredientFound = false;
+                    foreach (KitchenObjectSO plateKitchenObjectSo in plateKitchenObject.GetKitchenObjectSoList())
+                    {
+                        if (plateKitchenObjectSo == recipeKitchenObjectSo)
+                        {
+                            ingredientFound = true;
+                            break;
+                        }
+                    }
+                    if(!ingredientFound)
+                    {
+                        plateContentsMatchRecipe = false;
+                    }
+                }
+                if(plateContentsMatchRecipe)
+                {
+                    waitingRecipeSoList.Remove(waitingRecipeSO);
+                    OnRecipeDelivered?.Invoke();
+                    OnRecipeSuccess?.Invoke();
+                    return;
+                }
+            }
+        }
+        OnRecipeFailed?.Invoke();
     }
     
     public List<RecipeSO> GetWaitingRecipeSoList()

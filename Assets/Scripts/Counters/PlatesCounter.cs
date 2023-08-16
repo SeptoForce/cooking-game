@@ -12,6 +12,15 @@ public class PlatesCounter : BaseCounter
     private int _platesSpawnAmount = 0;
     private int _platesSpawnAmountMax = 4;
 
+    private void Start()
+    {
+        while(_platesSpawnAmount < _platesSpawnAmountMax)
+        {
+            _platesSpawnAmount++;
+            OnPlateSpawned?.Invoke();
+        }
+    }
+
     private void Update()
     {
         _spawnPlateTimer += Time.deltaTime;
