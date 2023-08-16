@@ -12,10 +12,11 @@ public class DeliveryManager : MonoBehaviour
     
     [SerializeField] private RecipeListSO recipeListSo;
     
-    private List<RecipeSO> waitingRecipeSoList = new List<RecipeSO>();
-    private float spawnRecipeTimer = 0f;
-    private float spawnRecipeTimerMax = 5f;
-    private int waitingRecipesMax = 5;
+    private List<RecipeSO> _waitingRecipeSoList = new List<RecipeSO>();
+    private float _spawnRecipeTimer = 0f;
+    private float _spawnRecipeTimerMax = 5f;
+    private int _waitingRecipesMax = 5;
+    private int _recipesDelivered = 0;
     
     private void Awake()
     {
@@ -24,15 +25,15 @@ public class DeliveryManager : MonoBehaviour
 
     private void Update()
     {
-        spawnRecipeTimer += Time.deltaTime;
-        if (spawnRecipeTimer >= spawnRecipeTimerMax)
+        _spawnRecipeTimer += Time.deltaTime;
+        if (_spawnRecipeTimer >= _spawnRecipeTimerMax)
         {
-            spawnRecipeTimer -= spawnRecipeTimerMax;
+            _spawnRecipeTimer -= _spawnRecipeTimerMax;
             
-            if (waitingRecipeSoList.Count < waitingRecipesMax)
+            if (_waitingRecipeSoList.Count < _waitingRecipesMax)
             {
                 RecipeSO waitingRecipeSo = recipeListSo.recipeSOList[UnityEngine.Random.Range(0, recipeListSo.recipeSOList.Count)];
-                waitingRecipeSoList.Add(waitingRecipeSo);
+                _waitingRecipeSoList.Add(waitingRecipeSo);
                 OnRecipeSpawned?.Invoke();
             }
         }
@@ -40,7 +41,7 @@ public class DeliveryManager : MonoBehaviour
 
     public void DeliverRecipe(PlateKitchenObject plateKitchenObject)
     {
-        foreach (RecipeSO waitingRecipeSO in waitingRecipeSoList)
+        foreach (RecipeSO waitingRecipeSO in _waitingRecipeSoList)
         {
             if(plateKitchenObject.GetKitchenObjectSoList().Count == waitingRecipeSO.kitchenObjectSOList.Count)
             {
@@ -63,9 +64,10 @@ public class DeliveryManager : MonoBehaviour
                 }
                 if(plateContentsMatchRecipe)
                 {
-                    waitingRecipeSoList.Remove(waitingRecipeSO);
+                    _waitingRecipeSoList.Remove(waitingRecipeSO);
                     OnRecipeDelivered?.Invoke();
                     OnRecipeSuccess?.Invoke();
+                    _recipesDelivered++;
                     return;
                 }
             }
@@ -75,6 +77,11 @@ public class DeliveryManager : MonoBehaviour
     
     public List<RecipeSO> GetWaitingRecipeSoList()
     {
-        return waitingRecipeSoList;
+        return _waitingRecipeSoList;
+    }
+    
+    public int GetRecipesDelivered()
+    {
+        return _recipesDelivered;
     }
 }
