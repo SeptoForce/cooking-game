@@ -7,6 +7,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask counterLayerMask;
     
+    public event Action<Player> OnPickedUpSomething;
     public static Player Instance { get; private set; }
     
     //For the interface IKitchenObjectParent
@@ -151,6 +152,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     public void SetKitchenObject(KitchenObject kitchenObject)
     {
         _kitchenObject = kitchenObject;
+        OnPickedUpSomething?.Invoke(this);
     }
     
     public void ClearKitchenObject()

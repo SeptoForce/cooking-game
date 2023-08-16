@@ -9,6 +9,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
     public event Action<float> OnProgressChanged;
     
     public event Action OnPlayerCutObject;
+    public static event Action<CuttingCounter> OnAnyCut;
 
     private int _cuttingProgress;
     
@@ -61,6 +62,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
             OnProgressChanged?.Invoke(_cuttingProgress/(float)cuttingRecipeSoWithInput.cuttingProgressMax);
             
             OnPlayerCutObject?.Invoke(); // for animation
+            OnAnyCut?.Invoke(this); // for sound
             
             if (_cuttingProgress < cuttingRecipeSoWithInput.cuttingProgressMax)
             {
