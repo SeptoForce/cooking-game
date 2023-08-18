@@ -20,7 +20,7 @@ public class DeliveryManagerUI : MonoBehaviour
         UpdateVisual();
     }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         DeliveryManager.Instance.OnRecipeSpawned -= InstanceOnRecipeSpawned;
         DeliveryManager.Instance.OnRecipeDelivered -= InstanceOnRecipeDelivered;

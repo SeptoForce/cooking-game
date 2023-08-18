@@ -23,7 +23,7 @@ public class GamePauseUI : MonoBehaviour
         Hide();
     }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         KitchenGameManager.Instance.OnGamePaused -= Show;
         KitchenGameManager.Instance.OnGameUnpaused -= Hide;

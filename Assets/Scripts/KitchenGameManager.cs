@@ -35,7 +35,7 @@ public class KitchenGameManager : MonoBehaviour
         GameInput.Instance.OnPause += TogglePauseGame;
     }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         GameInput.Instance.OnPause -= TogglePauseGame;
     }

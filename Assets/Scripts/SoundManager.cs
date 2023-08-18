@@ -26,7 +26,7 @@ public class SoundManager : MonoBehaviour
         TrashCounter.OnAnyObjectTrashed += PlayTrashSound;
     }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         DeliveryManager.Instance.OnRecipeSuccess -= PlayRecipeSuccessSound;
         DeliveryManager.Instance.OnRecipeFailed -= PlayRecipeFailedSound;

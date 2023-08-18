@@ -27,13 +27,6 @@ public class GameInput : MonoBehaviour
         _playerInputActions.Player.InteractAlternate.performed += OnInteractAlternateAction;
         _playerInputActions.Player.Pause.performed += OnPauseAction;
     }
-    
-    private void OnDisable()
-    {
-        _playerInputActions.Player.Interact.performed -= OnInteractAction;
-        _playerInputActions.Player.InteractAlternate.performed -= OnInteractAlternateAction;
-        _playerInputActions.Player.Pause.performed -= OnPauseAction;
-    }
 
     private void OnPauseAction(InputAction.CallbackContext obj)
     {
@@ -52,7 +45,9 @@ public class GameInput : MonoBehaviour
 
     private void OnDestroy()
     {
-        _playerInputActions.Player.Disable();
+        _playerInputActions.Player.Interact.performed -= OnInteractAction;
+        _playerInputActions.Player.InteractAlternate.performed -= OnInteractAlternateAction;
+        _playerInputActions.Player.Pause.performed -= OnPauseAction;
         _playerInputActions.Dispose();
     }
 

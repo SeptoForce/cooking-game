@@ -41,7 +41,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         gameInput.OnInteractAlternate += InteractAlternateAction;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         gameInput.OnInteract -= InteractAction;
         gameInput.OnInteractAlternate -= InteractAlternateAction;

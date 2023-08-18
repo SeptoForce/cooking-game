@@ -17,7 +17,7 @@ public class PlateIconsUI : MonoBehaviour
         plateKitchenObject.OnIngredientAdded += OnIngredientAdded;
     }
     
-    private void OnDisable()
+    private void OnDestroy()
     {
         plateKitchenObject.OnIngredientAdded -= OnIngredientAdded;
     }

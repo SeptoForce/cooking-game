@@ -17,7 +17,7 @@ public class CuttingCounterVisual : MonoBehaviour
         containerCounter.OnPlayerGrabbedObject += OnPlayerGrabbedObject;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         containerCounter.OnPlayerGrabbedObject -= OnPlayerGrabbedObject;
     }

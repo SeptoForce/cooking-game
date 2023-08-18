@@ -17,7 +17,7 @@ public class StoveCounterSound : MonoBehaviour
         stoveCounter.OnStateChanged += HandleStateChanged;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         stoveCounter.OnStateChanged -= HandleStateChanged;
     }

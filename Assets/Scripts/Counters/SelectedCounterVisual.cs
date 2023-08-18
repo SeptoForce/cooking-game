@@ -12,7 +12,7 @@ public class SelectedCounterVisual : MonoBehaviour
         Player.Instance.onSelectedCounterChanged += OnSelectedCounterChanged;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         Player.Instance.onSelectedCounterChanged -= OnSelectedCounterChanged;
     }
