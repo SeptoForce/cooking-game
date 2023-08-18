@@ -7,6 +7,8 @@ public class SoundManager : MonoBehaviour
     
     
     public static SoundManager Instance { get; private set; }
+    
+    private float _volume = 0.9f;
 
     private void Awake()
     {
@@ -14,6 +16,7 @@ public class SoundManager : MonoBehaviour
         {
             Instance = this;
         }
+        _volume = PlayerPrefs.GetFloat("sfxVolume", _volume);
     }
 
     private void Start()
@@ -34,6 +37,22 @@ public class SoundManager : MonoBehaviour
         Player.Instance.OnPickedUpSomething -= PlayPickupSound;
         BaseCounter.OnAnyObjectPlacedHere -= PlayPlaceSound;
         TrashCounter.OnAnyObjectTrashed -= PlayTrashSound;
+    }
+
+    public void ScrollVolume()
+    {
+        _volume += .1f;
+        if (_volume > 1f)
+        {
+            _volume = 0f;
+        }
+        
+        PlayerPrefs.SetFloat("sfxVolume", _volume);
+    }
+    
+    public float GetVolume()
+    {
+        return _volume;
     }
 
     private void PlayTrashSound(TrashCounter obj)
@@ -68,12 +87,12 @@ public class SoundManager : MonoBehaviour
 
     private void PlaySound(AudioClip audioClip, Vector3 position, float volume = 1f)
     {
-        AudioSource.PlayClipAtPoint(audioClip, position, volume);
+        AudioSource.PlayClipAtPoint(audioClip, position, _volume * volume);
     }
     
     private void PlaySound(AudioClip[] audioClipArray, Vector3 position, float volume = 1f)
     {
-        PlaySound(audioClipArray[UnityEngine.Random.Range(0, audioClipArray.Length)], position, volume);
+        PlaySound(audioClipArray[UnityEngine.Random.Range(0, audioClipArray.Length)], position, _volume * volume);
     }
     
     public void PlayFootstepSound(Vector3 position, float volume = 1f)

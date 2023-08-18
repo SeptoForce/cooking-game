@@ -63,7 +63,6 @@ public class CuttingCounter : BaseCounter, IHasProgress
             
             OnPlayerCutObject?.Invoke(); // for animation
             OnAnyCut?.Invoke(this); // for sound
-            Debug.Log(OnAnyCut.GetInvocationList().Length);
             
             if (_cuttingProgress < cuttingRecipeSoWithInput.cuttingProgressMax)
             {
