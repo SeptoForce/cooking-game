@@ -12,6 +12,11 @@ public class StoveCounterVisual : MonoBehaviour
     {
         stoveCounter.OnStateChanged += OnStateChanged;
     }
+    
+    private void OnDisable()
+    {
+        stoveCounter.OnStateChanged -= OnStateChanged;
+    }
 
     private void OnStateChanged(StoveCounter.State stoveState)
     {

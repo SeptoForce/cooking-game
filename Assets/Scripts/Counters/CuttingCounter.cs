@@ -63,6 +63,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
             
             OnPlayerCutObject?.Invoke(); // for animation
             OnAnyCut?.Invoke(this); // for sound
+            Debug.Log(OnAnyCut.GetInvocationList().Length);
             
             if (_cuttingProgress < cuttingRecipeSoWithInput.cuttingProgressMax)
             {
@@ -74,7 +75,7 @@ public class CuttingCounter : BaseCounter, IHasProgress
             KitchenObject.SpawnKitchenObject(kitchenObjectSo,this);
         }
     }
-    
+
     private bool HasRecipeWithInput(KitchenObjectSO input)
     {
         return cuttingRecipes.Exists(x => x.input == input);

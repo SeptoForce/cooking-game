@@ -17,6 +17,11 @@ public class StoveCounterSound : MonoBehaviour
         stoveCounter.OnStateChanged += HandleStateChanged;
     }
 
+    private void OnDisable()
+    {
+        stoveCounter.OnStateChanged -= HandleStateChanged;
+    }
+
     private void HandleStateChanged(StoveCounter.State obj)
     {
         bool playSound = obj == StoveCounter.State.Frying || obj == StoveCounter.State.Fried;

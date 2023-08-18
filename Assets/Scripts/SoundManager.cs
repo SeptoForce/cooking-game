@@ -25,6 +25,16 @@ public class SoundManager : MonoBehaviour
         BaseCounter.OnAnyObjectPlacedHere += PlayPlaceSound;
         TrashCounter.OnAnyObjectTrashed += PlayTrashSound;
     }
+    
+    private void OnDisable()
+    {
+        DeliveryManager.Instance.OnRecipeSuccess -= PlayRecipeSuccessSound;
+        DeliveryManager.Instance.OnRecipeFailed -= PlayRecipeFailedSound;
+        CuttingCounter.OnAnyCut -= PlayCutSound;
+        Player.Instance.OnPickedUpSomething -= PlayPickupSound;
+        BaseCounter.OnAnyObjectPlacedHere -= PlayPlaceSound;
+        TrashCounter.OnAnyObjectTrashed -= PlayTrashSound;
+    }
 
     private void PlayTrashSound(TrashCounter obj)
     {

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ContainerCounterVisual : MonoBehaviour
@@ -15,7 +16,12 @@ public class ContainerCounterVisual : MonoBehaviour
     {
         cuttingCounter.OnPlayerCutObject += OnPlayerCutObject;
     }
-    
+
+    private void OnDisable()
+    {
+        cuttingCounter.OnPlayerCutObject -= OnPlayerCutObject;
+    }
+
     private void OnPlayerCutObject()
     {
         _animator.SetTrigger(Cut);

@@ -23,6 +23,14 @@ public class ProgressBarUI : MonoBehaviour
         
         Hide();
     }
+    
+    private void OnDestroy()
+    {
+        if (_counterWithProgress != null)
+        {
+            _counterWithProgress.OnProgressChanged -= OnProgressChanged;
+        }
+    }
 
     private void OnProgressChanged(float progressNormalized)
     {

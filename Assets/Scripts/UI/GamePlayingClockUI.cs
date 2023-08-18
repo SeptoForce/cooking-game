@@ -11,6 +11,11 @@ public class GamePlayingClockUI : MonoBehaviour
         Hide();
     }
     
+    private void OnDisable()
+    {
+        KitchenGameManager.Instance.OnStateChange -= OnStateChange;
+    }
+    
     private void OnStateChange()
     {
         if (KitchenGameManager.Instance.IsGamePlaying())

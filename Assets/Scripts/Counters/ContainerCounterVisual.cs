@@ -16,7 +16,12 @@ public class CuttingCounterVisual : MonoBehaviour
     {
         containerCounter.OnPlayerGrabbedObject += OnPlayerGrabbedObject;
     }
-    
+
+    private void OnDisable()
+    {
+        containerCounter.OnPlayerGrabbedObject -= OnPlayerGrabbedObject;
+    }
+
     private void OnPlayerGrabbedObject(object sender, EventArgs e)
     {
         _animator.SetTrigger(OpenClose);

@@ -14,7 +14,7 @@ public class PlateCompleteVisual : MonoBehaviour
     [SerializeField] private PlateKitchenObject _plateKitchenObject;
     [SerializeField] private List<KitchenObjectSO_GameObject> _kitchenObjectSoGameObjectList = new List<KitchenObjectSO_GameObject>();
 
-        private void Start()
+    private void Start()
     {
         _plateKitchenObject.OnIngredientAdded += OnIngredientAdded;
         
@@ -22,6 +22,11 @@ public class PlateCompleteVisual : MonoBehaviour
         {
             kitchenObjectSoGameObject.gameObject.SetActive(false);
         }
+    }
+
+    private void OnDisable()
+    {
+        _plateKitchenObject.OnIngredientAdded -= OnIngredientAdded;
     }
 
     private void OnIngredientAdded(KitchenObjectSO kitchenObjectSo)
