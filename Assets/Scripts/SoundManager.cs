@@ -24,7 +24,8 @@ public class SoundManager : MonoBehaviour
         DeliveryManager.Instance.OnRecipeSuccess += PlayRecipeSuccessSound;
         DeliveryManager.Instance.OnRecipeFailed += PlayRecipeFailedSound;
         CuttingCounter.OnAnyCut += PlayCutSound;
-        Player.Instance.OnPickedUpSomething += PlayPickupSound;
+        Player.LocalInstance.OnPickedUpSomething += PlayPickupSound;
+        Player.OnAnyPickedUpSomething += PlayPickupSound;
         BaseCounter.OnAnyObjectPlacedHere += PlayPlaceSound;
         TrashCounter.OnAnyObjectTrashed += PlayTrashSound;
     }
@@ -34,7 +35,7 @@ public class SoundManager : MonoBehaviour
         DeliveryManager.Instance.OnRecipeSuccess -= PlayRecipeSuccessSound;
         DeliveryManager.Instance.OnRecipeFailed -= PlayRecipeFailedSound;
         CuttingCounter.OnAnyCut -= PlayCutSound;
-        Player.Instance.OnPickedUpSomething -= PlayPickupSound;
+        Player.LocalInstance.OnPickedUpSomething -= PlayPickupSound;
         BaseCounter.OnAnyObjectPlacedHere -= PlayPlaceSound;
         TrashCounter.OnAnyObjectTrashed -= PlayTrashSound;
     }

@@ -1,14 +1,16 @@
 using System;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IKitchenObjectParent
+public class Player : NetworkBehaviour, IKitchenObjectParent
 {
     [SerializeField] private float movementSpeed = 7f;
-    [SerializeField] private GameInput gameInput;
     [SerializeField] private LayerMask counterLayerMask;
     
+    public static event Action OnAnyPlayerSpawned;
     public event Action<Player> OnPickedUpSomething;
-    public static Player Instance { get; private set; }
+    public static event Action<Player> OnAnyPickedUpSomething;
+    public static Player LocalInstance { get; private set; }
     
     //For the interface IKitchenObjectParent
     private KitchenObject _kitchenObject;
@@ -29,26 +31,38 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void Awake()
     {
-        if (Instance == null)
+        // Instance = this;
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if(IsOwner)
         {
-            Instance = this;
+            LocalInstance = this;
         }
+        
+        OnAnyPlayerSpawned?.Invoke();
     }
 
     private void Start()
     {
-        gameInput.OnInteract += InteractAction;
-        gameInput.OnInteractAlternate += InteractAlternateAction;
+        GameInput.Instance.OnInteract += InteractAction;
+        GameInput.Instance.OnInteractAlternate += InteractAlternateAction;
     }
 
     private void OnDestroy()
     {
-        gameInput.OnInteract -= InteractAction;
-        gameInput.OnInteractAlternate -= InteractAlternateAction;
+        GameInput.Instance.OnInteract -= InteractAction;
+        GameInput.Instance.OnInteractAlternate -= InteractAlternateAction;
     }
 
     private void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         HandleMovement();
         HandleSelection();
     }
@@ -75,7 +89,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void HandleSelection()
     {
-        Vector2 inputVector = gameInput.GetMovementVector();
+        Vector2 inputVector = GameInput.Instance.GetMovementVector();
         Vector3 movementDirection = new Vector3(inputVector.x, 0, inputVector.y);
 
         if (movementDirection != Vector3.zero)
@@ -116,7 +130,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
     private void HandleMovement()
     {
-        Vector2 inputVector = gameInput.GetMovementVector();
+        Vector2 inputVector = GameInput.Instance.GetMovementVector();
         Vector3 movementDirection = new Vector3(inputVector.x, 0, inputVector.y);
         _isWalking = movementDirection != Vector3.zero;
         
@@ -169,6 +183,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
     {
         _kitchenObject = kitchenObject;
         OnPickedUpSomething?.Invoke(this);
+        OnAnyPickedUpSomething?.Invoke(this);
     }
     
     public void ClearKitchenObject()
